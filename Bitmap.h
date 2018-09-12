@@ -6,6 +6,7 @@
 #define IMAGEPROCESSING_BITMAP_H
 
 #include "common.h"
+#include "Pixel.h"
 
 class Bitmap {
 private:
@@ -13,11 +14,11 @@ private:
     UINT height;
     UINT depth;
     UINT byte_per_pix;
-    BYTE* imageData;
+    BYTE* data;
 public:
     Bitmap(UINT width, UINT height, UINT depth);
-    BYTE* getPixel(UINT row, UINT col);
-    char setPixel(UINT row, UINT col);
+    Pixel getPixel(UINT row, UINT col);
+    char setPixel(UINT row, UINT col, Pixel pixel_data);
     virtual ~Bitmap();
 };
 

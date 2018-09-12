@@ -4,8 +4,10 @@
 
 #ifndef IMAGEPROCESSING_COMMON_H
 #define IMAGEPROCESSING_COMMON_H
+
+#include <cstdio>
+#define BYTE_IN_BITS (8)
 typedef unsigned char BYTE;
 typedef unsigned int UINT;
-#define BYTE_IN_BITS (8)
 
 #endif //IMAGEPROCESSING_COMMON_H
