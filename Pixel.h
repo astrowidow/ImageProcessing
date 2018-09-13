@@ -17,7 +17,7 @@ public:
 
     void setData(BYTE *data);
 
-    UINT getByte_per_pix() const;
+    UINT getBytePerPix() const;
     BYTE *getData() const;
 
     virtual ~Pixel();

@@ -17,7 +17,7 @@ BYTE* Pixel::getData() const {
     return data;
 }
 
-UINT Pixel::getByte_per_pix() const {
+UINT Pixel::getBytePerPix() const {
     return byte_per_pix;
 }
 

@@ -9,5 +9,7 @@
 #define BYTE_IN_BITS (8)
 typedef unsigned char BYTE;
 typedef unsigned int UINT;
+typedef unsigned char UCHAR;
+typedef unsigned short USHORT;
 
 #endif //IMAGEPROCESSING_COMMON_H

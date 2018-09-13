@@ -6,10 +6,14 @@ int main() {
     UINT pix_data_size = sizeof(pix_data);
     Pixel pixel(sizeof(pix_data));
     pixel.setData(pix_data);
-    Bitmap test(4, 4, 24);
-    test.setPixel(0, 0, pixel);
-    Pixel receive = test.getPixel(0, 0);
+    Bitmap bitmap_image(4, 4, 24);
+    bitmap_image.setPixel(2, 1, &pixel);
+
+    Pixel receive(sizeof(pix_data));
+    bitmap_image.getPixel(2, 1, &receive);
     BYTE* rec = receive.getData();
     printf("%d %d %d", rec[0], rec[1], rec[2]);
+
+    Bitmap bitmap_smaple("lena_gray.bmp");
     return 0;
 }
