@@ -9,6 +9,20 @@
 #include "common.h"
 #include "Pixel.h"
 
+// define macro
+#define FILE_HEADER_SIZE (14)
+#define CORE_HEADER_SIZE (12)
+#define INFO_HEADER_SIZE (40)
+
+// define enum
+enum Compression_format{
+    BI_RGB,
+    BI_RLE8,
+    BI_RLE4,
+    Bitfileids,
+};
+
+// define struct used in Bitmap class
 struct BitmapFileHeader{
     char type[2];
     UINT size;
@@ -19,18 +33,13 @@ struct BitmapFileHeader{
 
 struct BitmapCoreHeader{
     UINT size;
-    USHORT width;
-    USHORT height;
+    UINT width;
+    UINT height;
     USHORT planes;
     USHORT bit_count;
 };
 
 struct BitmapInfoHeader{
-    UINT size;
-    UINT width;
-    UINT height;
-    USHORT planes;
-    USHORT bit_count;
     UINT compression;
     UINT data_size;
     UINT x_pix_per_meter;
@@ -39,12 +48,25 @@ struct BitmapInfoHeader{
     UINT idx_important_pallet;
 };
 
+struct ColorPallet{
+    UCHAR r;
+    UCHAR g;
+    UCHAR b;
+    UCHAR padding;
+};
+
 class Bitmap {
 private:
+    // important data
     UINT width;
     UINT height;
     UINT depth;
     UINT byte_per_pix;
+    UINT data_size;
+
+    // data pointer
+    ColorPallet* pallet_data;
+    BYTE* offset_data;
     BYTE* data;
 
     // header
@@ -61,6 +83,8 @@ public:
 
 private:
     bool checkBytePerPixel(Pixel* arg_pixel);
+    UINT calcBytePerPixel(UINT depth);
+    void readColorPalletData(FILE* fp, int num_pallet_color);
 };
 
 #endif //IMAGEPROCESSING_BITMAP_H

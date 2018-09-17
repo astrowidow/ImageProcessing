@@ -6,28 +6,84 @@
 #include "Bitmap.h"
 
 Bitmap::Bitmap(UINT w, UINT h, UINT d):width(w), height(h), depth(d) {
-    bool is_divisible = (depth%BYTE_IN_BITS == 0);
-    is_divisible ? byte_per_pix = depth/BYTE_IN_BITS : byte_per_pix = depth/BYTE_IN_BITS + 1;
-
-    data = (BYTE*)malloc(width * height * byte_per_pix);
+    byte_per_pix = calcBytePerPixel(depth);
+    data_size = width * height * byte_per_pix;
+    // malloc
+    pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet));
+    offset_data = (BYTE*)malloc(sizeof(BYTE));
+    data = (BYTE*)malloc(data_size);
 }
 
 Bitmap::Bitmap(char* file_name){
     FILE* fp;
     fp = fopen(file_name, "rb");
 
-    int data_num = 1;
-    fread(&file_header, sizeof(file_header), data_num, fp);
+    // read header information
+    UINT data_num = 1;
+    fread(&file_header.type, sizeof(file_header.type), data_num, fp);
+    fread(&file_header.size, sizeof(file_header.size), data_num, fp);
+    fread(&file_header.reserved1, sizeof(file_header.reserved1), data_num, fp);
+    fread(&file_header.reserved2, sizeof(file_header.reserved2), data_num, fp);
+    fread(&file_header.offset_byte, sizeof(file_header.offset_byte), data_num, fp);
 
     fread(&core_header.size, sizeof(core_header.size), data_num, fp);
-    info_header.size = core_header.size;
+    fread(&core_header.width, sizeof(core_header.width), data_num, fp);
+    fread(&core_header.height, sizeof(core_header.height), data_num, fp);
+    fread(&core_header.planes, sizeof(core_header.planes), data_num, fp);
+    fread(&core_header.bit_count, sizeof(core_header.bit_count), data_num, fp);
 
-    if(core_header.size == 40){
-        fread(&info_header, sizeof(info_header) - sizeof(info_header.size), data_num, fp);
+    // if header style is "bitmap info header",
+    // read additional data
+    if(core_header.size == INFO_HEADER_SIZE){
+        fread(&info_header.compression, sizeof(info_header.compression), data_num, fp);
+        fread(&info_header.data_size, sizeof(info_header.data_size), data_num, fp);
+        fread(&info_header.x_pix_per_meter, sizeof(info_header.x_pix_per_meter), data_num, fp);
+        fread(&info_header.y_pix_per_meter, sizeof(info_header.y_pix_per_meter), data_num, fp);
+        fread(&info_header.num_pallet_color, sizeof(info_header.num_pallet_color), data_num, fp);
+        fread(&info_header.idx_important_pallet, sizeof(info_header.idx_important_pallet), data_num, fp);
     }
-    else if(core_header.size == 12){
-        fread(&core_header, sizeof(core_header) - sizeof(core_header.size), data_num, fp);
+
+    // support only uncompressed bitmap
+    if((core_header.size == INFO_HEADER_SIZE)
+       && (info_header.compression != BI_RGB)){
+        printf("Only uncompressed format is supported !!");
     }
+
+    // read pallet data
+    int num_pallet_color = 0;
+    if(core_header.size == INFO_HEADER_SIZE){
+        num_pallet_color = info_header.num_pallet_color;
+        readColorPalletData(fp, num_pallet_color);
+    }
+    else if(core_header.size == CORE_HEADER_SIZE) {
+        // TO BE IMPLEMENTED
+        num_pallet_color = 0;
+        readColorPalletData(fp, num_pallet_color);
+    }
+
+    // advance the file pointer to data part
+    // ... there is the case that info header doesn't include num_pallet_color
+    UINT offset_byte;
+    offset_byte = file_header.offset_byte - FILE_HEADER_SIZE - core_header.size - num_pallet_color;
+    // ... read offset data
+    offset_data = (BYTE*)malloc(offset_byte);
+    fread(offset_data, offset_byte, data_num, fp);
+
+    // read image data
+    // ... get byte per pixel
+    UINT byte_p_pix = calcBytePerPixel(core_header.bit_count);
+    // ... get image date size
+    UINT image_data_size = core_header.height*core_header.width*byte_p_pix;
+    // ... read image data
+    data = (BYTE*)malloc(image_data_size);
+    fread(data, image_data_size, data_num, fp);
+
+    // set important parameter
+    width = core_header.width;
+    height = core_header.height;
+    depth = core_header.bit_count;
+    byte_per_pix = byte_p_pix;
+    data_size = image_data_size;
 }
 
 UCHAR Bitmap::getPixel(UINT row,
@@ -35,7 +91,7 @@ UCHAR Bitmap::getPixel(UINT row,
                        Pixel* dst_pixel) // if this argument is not pointer, Pixel instance (malloc) is executed every time
 {
     // select the nearest pixel if the row and the col refer out of an image
-    char get_status = 0;
+    UCHAR get_status = 0;
     if(row < 0){
         row = 0;
         get_status = 1;
@@ -61,7 +117,7 @@ UCHAR Bitmap::getPixel(UINT row,
         dst_pixel->setData(&data[pixel_position]);
     }
     else{
-        printf("setting error occured. Error: %d.\n", get_status);
+        printf("setting error occurred. Error: %d.\n", get_status);
     }
 
     return get_status;
@@ -95,6 +151,27 @@ bool Bitmap::checkBytePerPixel(Pixel* arg_pixel){
     return (arg_pixel->getBytePerPix() == byte_per_pix);
 }
 
+UINT Bitmap::calcBytePerPixel(UINT depth){
+    bool is_divisible = (depth%BYTE_IN_BITS == 0);
+    UINT byte_p_pix;
+    is_divisible ? byte_p_pix = depth/BYTE_IN_BITS : byte_p_pix = depth/BYTE_IN_BITS + 1;
+    return  byte_p_pix;
+}
+
+void Bitmap::readColorPalletData(FILE* fp,
+                                 int num_pallet_color){
+    pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet)*num_pallet_color);
+    // read pallet loop
+    for(int i = 0; i < num_pallet_color; i++){
+        fread(&pallet_data[i].b, sizeof(UCHAR), 1, fp);
+        fread(&pallet_data[i].g, sizeof(UCHAR), 1, fp);
+        fread(&pallet_data[i].r, sizeof(UCHAR), 1, fp);
+        fread(&pallet_data[i].padding, sizeof(UCHAR), 1, fp);
+    }
+}
+
 Bitmap::~Bitmap() {
+    free(pallet_data);
+    free(offset_data);
     free(data);
 }
