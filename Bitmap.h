@@ -13,6 +13,8 @@
 #define FILE_HEADER_SIZE (14)
 #define CORE_HEADER_SIZE (12)
 #define INFO_HEADER_SIZE (40)
+#define CORE_PALLET_SET_SIZE (3)
+#define INFO_PALLET_SET_SIZE (4)
 
 // define enum
 enum Compression_format{
@@ -63,6 +65,7 @@ private:
     UINT depth;
     UINT byte_per_pix;
     UINT data_size;
+    UINT offset_byte;// data from hea
 
     // data pointer
     ColorPallet* pallet_data;
@@ -79,6 +82,7 @@ public:
     Bitmap(char* file_name);
     UCHAR getPixel(UINT row, UINT col, Pixel* dst_pixel);
     UCHAR setPixel(UINT row, UINT col, Pixel* src_pixel);
+    void writeBitmap(char *file_name);
     virtual ~Bitmap();
 
 private:
