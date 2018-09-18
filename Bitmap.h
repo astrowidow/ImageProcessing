@@ -58,7 +58,8 @@ struct ColorPallet{
 };
 
 class Bitmap {
-private:
+//private:
+public:
     // important data
     UINT width;
     UINT height;

@@ -73,7 +73,7 @@ Bitmap::Bitmap(char* file_name){
     // read image data
     // ... get byte per pixel
     UINT byte_p_pix = calcBytePerPixel(core_header.bit_count);
-    // ... get image date size
+    // ... get image data size
     UINT image_data_size = core_header.height*core_header.width*byte_p_pix;
     // ... read image data
     data = (BYTE*)malloc(image_data_size);
@@ -118,7 +118,7 @@ UCHAR Bitmap::getPixel(UINT row,
     if(get_status == 0){
         // get an address of the referred pixel
         UINT pixel_position = col + row * width;
-        dst_pixel->setData(&data[pixel_position]);
+        dst_pixel->setData(&data[pixel_position*byte_per_pix]);
     }
     else{
         printf("setting error occurred. Error: %d.\n", get_status);
@@ -142,7 +142,7 @@ UCHAR Bitmap::setPixel(UINT row,
     if(set_status == 0){
         // get an address of the referred pixel
         UINT pixel_position = col + row * width;
-        memcpy(&data[pixel_position], src_pixel->getData(), byte_per_pix);
+        memcpy(&data[pixel_position*byte_per_pix], src_pixel->getData(), byte_per_pix);
     } else {
         printf("setting error occured. Error: %d.\n", set_status);
     }
@@ -205,7 +205,8 @@ void Bitmap::writeBitmap(char *file_name){
             }
         }
     }
-    else {// if there is not prepared header...
+    else {// if there isn't prepared header...
+        // ... write file header
         UCHAR type[] = "BM";
         fwrite(&type[0], sizeof(UCHAR), data_num, fp);
         fwrite(&type[1], sizeof(UCHAR), data_num, fp);
@@ -220,6 +221,7 @@ void Bitmap::writeBitmap(char *file_name){
         UINT offset_byte = FILE_HEADER_SIZE + INFO_HEADER_SIZE;
         fwrite(&offset_byte, sizeof(offset_byte), data_num, fp);
 
+        // ... write info headeer
         UINT info_header_size = INFO_HEADER_SIZE;
         fwrite(&info_header_size, sizeof(info_header_size), data_num, fp);
 
