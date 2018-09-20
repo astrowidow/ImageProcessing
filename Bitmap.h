@@ -66,11 +66,11 @@ public:
     UINT depth;
     UINT byte_per_pix;
     UINT data_size;
-    UINT offset_byte;// data from hea
+    UINT pallet_byte;
+    UINT pallet_num;
 
     // data pointer
     ColorPallet* pallet_data;
-    BYTE* offset_data;
     BYTE* data;
 
     // header

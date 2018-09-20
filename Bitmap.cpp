@@ -10,7 +10,6 @@ Bitmap::Bitmap(UINT w, UINT h, UINT d):width(w), height(h), depth(d) {
     data_size = width * height * byte_per_pix;
     // malloc
     pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet));
-    offset_data = (BYTE*)malloc(sizeof(BYTE));
     data = (BYTE*)malloc(data_size);
 }
 
@@ -51,24 +50,29 @@ Bitmap::Bitmap(char* file_name){
     }
 
     // read pallet data
-    int num_pallet_color = 0;
+    pallet_byte = file_header.offset_byte - FILE_HEADER_SIZE - core_header.size;
+    UINT pallet_color_num;
     if(core_header.size == INFO_HEADER_SIZE){
-        num_pallet_color = info_header.num_pallet_color;
-        readColorPalletData(fp, num_pallet_color);
+        if(pallet_byte%INFO_PALLET_SET_SIZE) printf("pallet num is unexpected !!");
+        pallet_color_num = pallet_byte/INFO_PALLET_SET_SIZE;
+        pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet)*pallet_num);
+        for(int i = 0; i < pallet_color_num; i++){
+            fread(&pallet_data[i].b, sizeof(UCHAR), 1, fp);
+            fread(&pallet_data[i].g, sizeof(UCHAR), 1, fp);
+            fread(&pallet_data[i].r, sizeof(UCHAR), 1, fp);
+            fread(&pallet_data[i].padding, sizeof(UCHAR), 1, fp);
+        }
     }
     else if(core_header.size == CORE_HEADER_SIZE) {
-        // TO BE IMPLEMENTED
-        num_pallet_color = 0;
-        readColorPalletData(fp, num_pallet_color);
+        if(pallet_byte%CORE_PALLET_SET_SIZE) printf("pallet num is unexpected !!");
+        pallet_color_num = pallet_byte/CORE_PALLET_SET_SIZE;
+        pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet)*pallet_num);
+        for(int i = 0; i < pallet_color_num; i++){
+            fread(&pallet_data[i].b, sizeof(UCHAR), 1, fp);
+            fread(&pallet_data[i].g, sizeof(UCHAR), 1, fp);
+            fread(&pallet_data[i].r, sizeof(UCHAR), 1, fp);
+        }
     }
-
-    // advance the file pointer to data part
-    // ... there is the case that info header doesn't include num_pallet_color
-    UINT offset_byte;
-    offset_byte = file_header.offset_byte - FILE_HEADER_SIZE - core_header.size - num_pallet_color;
-    // ... read offset data
-    offset_data = (BYTE*)malloc(offset_byte);
-    fread(offset_data, offset_byte, data_num, fp);
 
     // read image data
     // ... get byte per pixel
@@ -85,6 +89,7 @@ Bitmap::Bitmap(char* file_name){
     depth = core_header.bit_count;
     byte_per_pix = byte_p_pix;
     data_size = image_data_size;
+    pallet_num = pallet_color_num;
 
     // close file
     fclose(fp);
@@ -169,16 +174,15 @@ void Bitmap::writeBitmap(char *file_name){
         fwrite(&core_header.size, sizeof(core_header.size), data_num, fp);
         // information header
         if(core_header.size == CORE_HEADER_SIZE){
-            USHORT width = (USHORT)core_header.width;
+            auto width = (USHORT)core_header.width;
             fwrite(&width, sizeof(width), data_num, fp);
-            USHORT height = (USHORT)core_header.height;
+            auto height = (USHORT)core_header.height;
             fwrite(&height, sizeof(height), data_num, fp);
 
             fwrite(&core_header.planes, sizeof(core_header.planes), data_num, fp);
             fwrite(&core_header.bit_count, sizeof(core_header.bit_count), data_num, fp);
 
-            UINT num_pallet_color = 0;
-            for(UINT i = 0; i < num_pallet_color/CORE_HEADER_SIZE; i++){
+            for(UINT i = 0; i < pallet_num; i++){
                 fwrite(&pallet_data[i].b, sizeof(pallet_data[i].b), data_num, fp);
                 fwrite(&pallet_data[i].g, sizeof(pallet_data[i].g), data_num, fp);
                 fwrite(&pallet_data[i].r, sizeof(pallet_data[i].r), data_num, fp);
@@ -197,7 +201,7 @@ void Bitmap::writeBitmap(char *file_name){
             fwrite(&info_header.num_pallet_color, sizeof(info_header.num_pallet_color), data_num, fp);
             fwrite(&info_header.idx_important_pallet, sizeof(info_header.idx_important_pallet), data_num, fp);
 
-            for(UINT i = 0; i < info_header.num_pallet_color/INFO_HEADER_SIZE; i++){
+            for(UINT i = 0; i < pallet_num; i++){
                 fwrite(&pallet_data[i].b, sizeof(pallet_data[i].b), data_num, fp);
                 fwrite(&pallet_data[i].g, sizeof(pallet_data[i].g), data_num, fp);
                 fwrite(&pallet_data[i].r, sizeof(pallet_data[i].r), data_num, fp);
@@ -231,7 +235,7 @@ void Bitmap::writeBitmap(char *file_name){
         USHORT plane_num = 1; // always 1
         fwrite(&plane_num, sizeof(plane_num), data_num, fp);
 
-        USHORT bit_count = (USHORT)depth;
+        auto bit_count = (USHORT)depth;
         fwrite(&bit_count, sizeof(bit_count), data_num, fp);
 
         UINT compression_type = 0; // always 0
@@ -251,6 +255,20 @@ void Bitmap::writeBitmap(char *file_name){
 
         UINT important_pallet_idx = 0;
         fwrite(&important_pallet_idx, sizeof(important_pallet_idx), data_num, fp);
+
+        // ... write color pallet if needed
+        if(depth == 8){
+            UCHAR padding_data = 0;
+            UCHAR pallet_element = 0;
+            //for(UCHAR i = 0; i < 256; i++){
+            for(UINT i = 0; i < 256; i++){
+                fwrite(&pallet_element, sizeof(BYTE), data_num, fp);
+                fwrite(&pallet_element, sizeof(BYTE), data_num, fp);
+                fwrite(&pallet_element, sizeof(BYTE), data_num, fp);
+                fwrite(&padding_data, sizeof(BYTE), data_num, fp);
+                pallet_element++;
+            }
+        }
     }
 
     // write data part
@@ -272,20 +290,7 @@ UINT Bitmap::calcBytePerPixel(UINT depth){
     return  byte_p_pix;
 }
 
-void Bitmap::readColorPalletData(FILE* fp,
-                                 int num_pallet_color){
-    pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet)*num_pallet_color);
-    // read pallet loop
-    for(int i = 0; i < num_pallet_color; i++){
-        fread(&pallet_data[i].b, sizeof(UCHAR), 1, fp);
-        fread(&pallet_data[i].g, sizeof(UCHAR), 1, fp);
-        fread(&pallet_data[i].r, sizeof(UCHAR), 1, fp);
-        fread(&pallet_data[i].padding, sizeof(UCHAR), 1, fp);
-    }
-}
-
 Bitmap::~Bitmap() {
     free(pallet_data);
-    free(offset_data);
     free(data);
 }
