@@ -3,4 +3,4 @@ project(imageProcessing)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(imageProcessing main.cpp Bitmap.cpp Bitmap.h common.h Pixel.cpp Pixel.h)
+add_executable(imageProcessing main.cpp Bitmap.cpp Bitmap.h common.h Pixel.cpp Pixel.h Process.cpp Process.h)
