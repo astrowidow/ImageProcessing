@@ -84,7 +84,7 @@ public:
     UCHAR getPixel(UINT row, UINT col, Pixel* dst_pixel);
     UCHAR setPixel(UINT row, UINT col, Pixel* src_pixel);
     void writeBitmap(char *file_name);
-    virtual ~Bitmap();
+    ~Bitmap();
 
 private:
     bool checkBytePerPixel(Pixel* arg_pixel);

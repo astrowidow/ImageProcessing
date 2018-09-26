@@ -9,8 +9,10 @@ Bitmap::Bitmap(UINT w, UINT h, UINT d):width(w), height(h), depth(d) {
     byte_per_pix = calcBytePerPixel(depth);
     data_size = width * height * byte_per_pix;
     // malloc
-    pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet));
-    data = (BYTE*)malloc(data_size);
+    //pallet_data = (ColorPallet*)malloc(sizeof(ColorPallet));
+    pallet_data = new ColorPallet;
+    //data = (BYTE*)malloc(data_size);
+    data = new BYTE[data_size];
 }
 
 Bitmap::Bitmap(char* file_name){
@@ -278,6 +280,13 @@ void Bitmap::writeBitmap(char *file_name){
     fclose(fp);
 }
 
+Bitmap::~Bitmap() {
+    //free(pallet_data);
+    delete pallet_data;
+    //free(data);
+    delete[] data;
+}
+
 // private function ---------------------------------
 bool Bitmap::checkBytePerPixel(Pixel* arg_pixel){
     return (arg_pixel->getBytePerPix() == byte_per_pix);
@@ -288,9 +297,4 @@ UINT Bitmap::calcBytePerPixel(UINT depth){
     UINT byte_p_pix;
     is_divisible ? byte_p_pix = depth/BYTE_IN_BITS : byte_p_pix = depth/BYTE_IN_BITS + 1;
     return  byte_p_pix;
-}
-
-Bitmap::~Bitmap() {
-    free(pallet_data);
-    free(data);
 }

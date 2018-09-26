@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Bitmap.h"
+#include "./ProcessStrategy/ProcessStrategyContrastConversion.h"
 
 int main() {
     //Bitmap longPhaseImage("./testImage/LongPhaseX.bmp");
@@ -27,5 +28,9 @@ int main() {
     }
     shortPhaseImage.writeBitmap("./testImage/testGenerateByShortPhaseImage.bmp");
     test.writeBitmap("./testImage/testGenerateByTest.bmp");
+    // strategy patternのテスト
+    ProcessStrategy* contrast_conversion = (ProcessStrategy*) new ProcessStrategyContrastConversion(&longPhaseImage, &test, 3, -150);
+    contrast_conversion->executeProcessing();
+    test.writeBitmap("./testImage/contrastTest.bmp");
     return 0;
 }
