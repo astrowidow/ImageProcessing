@@ -81,8 +81,8 @@ public:
 public:
     Bitmap(UINT width, UINT height, UINT depth);
     Bitmap(char* file_name);
-    UCHAR getPixel(UINT row, UINT col, Pixel* dst_pixel);
-    UCHAR setPixel(UINT row, UINT col, Pixel* src_pixel);
+    UCHAR getPixel(int row, int col, Pixel* dst_pixel);
+    UCHAR setPixel(int row, int col, Pixel* src_pixel);
     void writeBitmap(char *file_name);
     ~Bitmap();
 

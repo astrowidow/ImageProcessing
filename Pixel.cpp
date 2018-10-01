@@ -5,7 +5,7 @@
 #include "Pixel.h"
 
 Pixel::Pixel(UINT size):byte_per_pix(size){
-    data = (BYTE*)malloc(byte_per_pix);
+    this->data = new BYTE[byte_per_pix];
 }
 
 void Pixel::setData(BYTE *src_data) {
@@ -22,5 +22,5 @@ UINT Pixel::getBytePerPix() const {
 }
 
 Pixel::~Pixel() {
-    free(data);
+    delete data;
 }
