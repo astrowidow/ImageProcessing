@@ -7,17 +7,18 @@
 
 
 #include "Bitmap.h"
+#include "Pixel.h"
 
-class ProcessStrategy {
+class ImageProcessing {
 protected:
     Bitmap* dst;
     Bitmap* src;
     Pixel* pixel;
 public:
-    ProcessStrategy(Bitmap* src_image,
+    ImageProcessing(Bitmap* src_image,
                     Bitmap* dst_image);
     virtual void executeProcessing() = 0;
-    virtual ~ProcessStrategy();
+    virtual ~ImageProcessing();
 };
 
 

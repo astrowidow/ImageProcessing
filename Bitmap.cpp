@@ -55,7 +55,7 @@ Bitmap::Bitmap(char* file_name){
     if(core_header.size == INFO_HEADER_SIZE){
         if(pallet_byte%INFO_PALLET_SET_SIZE) printf("pallet num is unexpected !!");
         pallet_color_num = pallet_byte/INFO_PALLET_SET_SIZE;
-        pallet_data = new ColorPallet[pallet_num];
+        pallet_data = new ColorPallet[pallet_color_num];
         for(int i = 0; i < pallet_color_num; i++){
             fread(&pallet_data[i].b, sizeof(UCHAR), 1, fp);
             fread(&pallet_data[i].g, sizeof(UCHAR), 1, fp);
@@ -66,7 +66,7 @@ Bitmap::Bitmap(char* file_name){
     else if(core_header.size == CORE_HEADER_SIZE) {
         if(pallet_byte%CORE_PALLET_SET_SIZE) printf("pallet num is unexpected !!");
         pallet_color_num = pallet_byte/CORE_PALLET_SET_SIZE;
-        pallet_data = new ColorPallet[pallet_num];
+        pallet_data = new ColorPallet[pallet_color_num];
         for(int i = 0; i < pallet_color_num; i++){
             fread(&pallet_data[i].b, sizeof(UCHAR), 1, fp);
             fread(&pallet_data[i].g, sizeof(UCHAR), 1, fp);

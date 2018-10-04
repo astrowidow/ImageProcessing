@@ -2,20 +2,20 @@
 // Created by 俵京佑 on 2018/09/25.
 //
 
-#include "ProcessStrategyContrastConversion.h"
+#include "ImageProcessingContrastConversion.h"
 #include "../Bitmap.h"
 
-ProcessStrategyContrastConversion::ProcessStrategyContrastConversion
+ImageProcessingContrastConversion::ImageProcessingContrastConversion
         (Bitmap* src_image,
          Bitmap* dst_image,
         double gain,
         double offset)
-        :ProcessStrategy(src_image, dst_image), gain(gain), offset(offset)
+        :ImageProcessing(src_image, dst_image), gain(gain), offset(offset)
 {
     // do nothing
 }
 
-void ProcessStrategyContrastConversion::executeProcessing()
+void ImageProcessingContrastConversion::executeProcessing()
 {
     for(UINT row = 0; row < src->height; row++){
         for(UINT col = 0; col < src->width; col++){
@@ -37,6 +37,6 @@ void ProcessStrategyContrastConversion::executeProcessing()
     }
 }
 
-ProcessStrategyContrastConversion::~ProcessStrategyContrastConversion(){
+ImageProcessingContrastConversion::~ImageProcessingContrastConversion(){
     // do nothing
 }

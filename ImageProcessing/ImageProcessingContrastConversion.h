@@ -5,18 +5,18 @@
 #ifndef IMAGEPROCESSING_PROCESSSTRATEGYCONTRASTCONVERSION_H
 #define IMAGEPROCESSING_PROCESSSTRATEGYCONTRASTCONVERSION_H
 
-#include "../ProcessStrategy.h"
+#include "../ImageProcessing.h"
 #include "../Bitmap.h"
 
-class ProcessStrategyContrastConversion : public ProcessStrategy
+class ImageProcessingContrastConversion : public ImageProcessing
 {
 private:
     double gain;
     double offset;
 public:
-    ProcessStrategyContrastConversion(Bitmap* src_image, Bitmap* dst_image, double gain, double offset);
+    ImageProcessingContrastConversion(Bitmap* src_image, Bitmap* dst_image, double gain, double offset);
     void executeProcessing() override;
-    ~ProcessStrategyContrastConversion() override;
+    ~ImageProcessingContrastConversion() override;
 };
 
 

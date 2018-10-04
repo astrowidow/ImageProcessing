@@ -1,11 +1,11 @@
 #include <iostream>
 #include "Bitmap.h"
-#include "./ProcessStrategy/ProcessStrategyContrastConversion.h"
+#include "ImageProcessing/ImageProcessingContrastConversion.h"
 
 int main() {
-    //Bitmap longPhaseImage("../testImage/LongPhaseX.bmp");
     Bitmap longPhaseImage("../testImage/lena_gray.bmp");
-//    Bitmap shortPhaseImage("../testImage/lena_gray.bmp");
+    Bitmap shortPhaseImage("../testImage/black.bmp");
+    //Bitmap shortPhaseImage("../testImage/lena_gray.bmp");
     Bitmap test(512, 512, 8);
     Pixel testPix(1);
     BYTE pix_data = 0;
@@ -29,7 +29,7 @@ int main() {
 //    shortPhaseImage.writeBitmap("../testImage/testGenerateByShortPhaseImage.bmp");
 //    test.writeBitmap("../testImage/testGenerateByTest.bmp");
     // strategy patternのテスト
-    ProcessStrategy* contrast_conversion = (ProcessStrategy*) new ProcessStrategyContrastConversion(&longPhaseImage, &test, 3, -150);
+    ImageProcessing* contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&longPhaseImage, &test, 3, -150);
     contrast_conversion->executeProcessing();
     //test.writeBitmap("../testImage/contrastTest.bmp");
     return 0;
