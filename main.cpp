@@ -30,7 +30,7 @@ int main() {
 //    test.writeBitmap("../testImage/testGenerateByTest.bmp");
     // strategy patternのテスト
     ImageProcessing* contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&longPhaseImage, &test, 3, -150);
-    contrast_conversion->executeProcessing();
+    contrast_conversion->execute();
     //test.writeBitmap("../testImage/contrastTest.bmp");
     return 0;
 }

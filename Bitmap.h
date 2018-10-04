@@ -8,6 +8,7 @@
 #include <string>
 #include "common.h"
 #include "Pixel.h"
+#include "Image.h"
 
 // define macro
 #define FILE_HEADER_SIZE (14)
@@ -57,21 +58,15 @@ struct ColorPallet{
     UCHAR padding;
 };
 
-class Bitmap {
-//private:
-public:
+class Bitmap : public Image
+{
+private:
     // important data
-    UINT width;
-    UINT height;
-    UINT depth;
-    UINT byte_per_pix;
-    UINT data_size;
     UINT pallet_byte;
     UINT pallet_num;
 
     // data pointer
     ColorPallet* pallet_data;
-    BYTE* data;
 
     // header
     BitmapFileHeader file_header;
@@ -81,15 +76,8 @@ public:
 public:
     Bitmap(UINT width, UINT height, UINT depth);
     Bitmap(char* file_name);
-    UCHAR getPixel(int row, int col, Pixel* dst_pixel);
-    UCHAR setPixel(int row, int col, Pixel* src_pixel);
     void writeBitmap(char *file_name);
-    ~Bitmap();
-
-private:
-    bool checkBytePerPixel(Pixel* arg_pixel);
-    UINT calcBytePerPixel(UINT depth);
-    void readColorPalletData(FILE* fp, int num_pallet_color);
+    ~Bitmap() override;
 };
 
 #endif //IMAGEPROCESSING_BITMAP_H

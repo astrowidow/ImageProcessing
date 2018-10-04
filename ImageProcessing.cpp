@@ -4,12 +4,19 @@
 
 #include "ImageProcessing.h"
 
-ImageProcessing::ImageProcessing(Bitmap* src_image,
-                                 Bitmap* dst_image):src(src_image), dst(dst_image)
+ImageProcessing::ImageProcessing(UINT image_height, UINT image_width):height(image_height), width(image_width)
 {
-    pixel = new Pixel(src->byte_per_pix);
+}
+
+void ImageProcessing::execute(){
+    executeOpening();
+    for(UINT row = 0; row < height; row++){
+        for(UINT col = 0; col < width; col++){
+            executeProcess(row, col);
+        }
+    }
+    executeEnding();
 }
 
 ImageProcessing::~ImageProcessing() {
-    delete pixel;
 }

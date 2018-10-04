@@ -11,14 +11,16 @@
 
 class ImageProcessing {
 protected:
-    Bitmap* dst;
-    Bitmap* src;
-    Pixel* pixel;
+    UINT height;
+    UINT width;
 public:
-    ImageProcessing(Bitmap* src_image,
-                    Bitmap* dst_image);
-    virtual void executeProcessing() = 0;
+    ImageProcessing(UINT image_height, UINT image_width);
+    void execute();
     virtual ~ImageProcessing();
+private:
+    virtual void executeOpening() = 0;
+    virtual void executeProcess(UINT row, UINT col) = 0;
+    virtual void executeEnding() = 0;
 };
 
 

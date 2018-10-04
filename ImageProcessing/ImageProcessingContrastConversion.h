@@ -13,9 +13,14 @@ class ImageProcessingContrastConversion : public ImageProcessing
 private:
     double gain;
     double offset;
+    Image* dst;
+    Image* src;
+    Pixel* pixel;
 public:
-    ImageProcessingContrastConversion(Bitmap* src_image, Bitmap* dst_image, double gain, double offset);
-    void executeProcessing() override;
+    ImageProcessingContrastConversion(Image* src_image, Image* dst_image, double gain, double offset);
+    void executeOpening() override;
+    void executeProcess(UINT row, UINT col) override;
+    void executeEnding() override;
     ~ImageProcessingContrastConversion() override;
 };
 
