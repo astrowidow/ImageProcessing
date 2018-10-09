@@ -84,6 +84,8 @@ BYTE* Image::getData(){
     return data;
 }
 
+Image::~Image(){}
+
 // protected function ---------------------------------
 bool Image::checkBytePerPixel(Pixel* arg_pixel){
     return (arg_pixel->getBytePerPix() == byte_per_pix);
