@@ -13,6 +13,7 @@ ImageProcessingContrastConversion::ImageProcessingContrastConversion
 {
     src = src_image;
     dst = dst_image;
+    pixel = new Pixel(src->getBytePerPix());
 }
 
 void ImageProcessingContrastConversion::executeOpening() {}
