@@ -20,20 +20,14 @@ void ImageProcessingContrastConversion::executeOpening() {}
 
 void ImageProcessingContrastConversion::executeProcess(UINT row, UINT col)
 {
-    if(src->getPixel(row, col, pixel) != 0){
-        printf("error at get pixel: row = %d, col = %d", row+1, col+1);
-    }
-    BYTE* p_pixel_data = pixel->getData();
+    BYTE* p_pixel_data = (BYTE*)src->getPixel(row, col);
     for(UCHAR i = 0; i < src->getBytePerPix(); i++){
         int data_temp = (int) (gain*p_pixel_data[i] + offset);
         if(data_temp > 255) data_temp = 255;
         if(data_temp < 0) data_temp = 0;
         p_pixel_data[i] = (BYTE)data_temp;
     }
-    pixel->setData(p_pixel_data);
-    if(dst->setPixel(row, col, pixel) != 0){
-        printf("error at set pixel: row = %d, col = %d", row+1, col+1);
-    }
+    dst->setPixel(row, col, p_pixel_data);
 }
 
 void ImageProcessingContrastConversion::executeEnding() {}

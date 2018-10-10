@@ -31,6 +31,6 @@ int main() {
     // strategy patternのテスト
     ImageProcessing* contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&longPhaseImage, &test, 3, -150);
     contrast_conversion->execute();
-    //test.writeBitmap("../testImage/contrastTest.bmp");
+    test.writeBitmap("../testImage/contrastTestNoPixel.bmp");
     return 0;
 }
