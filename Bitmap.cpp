@@ -5,6 +5,8 @@
 #include <cstring>
 #include "Bitmap.h"
 
+#define MONOCHROME_PALLET_NUM (256)
+
 Bitmap::Bitmap(UINT w, UINT h, UINT d){
     width = w;
     height = h;
@@ -22,7 +24,7 @@ Bitmap::Bitmap(char* file_name){
     fp = fopen(file_name, "rb");
 
     // read header information
-    UINT data_num = 1;
+    const UINT data_num = 1;
     fread(&file_header.type, sizeof(file_header.type), data_num, fp);
     fread(&file_header.size, sizeof(file_header.size), data_num, fp);
     fread(&file_header.reserved1, sizeof(file_header.reserved1), data_num, fp);
@@ -200,11 +202,11 @@ void Bitmap::writeBitmap(char *file_name){
         fwrite(&important_pallet_idx, sizeof(important_pallet_idx), data_num, fp);
 
         // ... write color pallet if needed
-        if(depth == 8){
+        if(depth == BYTE_IN_BITS){
             UCHAR padding_data = 0;
             UCHAR pallet_element = 0;
             //for(UCHAR i = 0; i < 256; i++){
-            for(UINT i = 0; i < 256; i++){
+            for(UINT i = 0; i < MONOCHROME_PALLET_NUM; i++){
                 fwrite(&pallet_element, sizeof(BYTE), data_num, fp);
                 fwrite(&pallet_element, sizeof(BYTE), data_num, fp);
                 fwrite(&pallet_element, sizeof(BYTE), data_num, fp);

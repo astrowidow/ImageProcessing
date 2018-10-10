@@ -27,7 +27,6 @@ public:
     UINT getBytePerPix();
     UINT getDataSize();
     BYTE* getData();
-    void executeProcessing();
     virtual ~Image();
 
 protected:

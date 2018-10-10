@@ -7,8 +7,8 @@
 Image::Image() {}
 
 UCHAR Image::getPixel(int row,
-                       int col,
-                       Pixel* dst_pixel) // if this argument is not pointer, Pixel instance (malloc) is executed every time
+                      int col,
+                      Pixel* dst_pixel) // if this argument is not pointer, Pixel instance (malloc) is executed every time
 {
     // select the nearest pixel if the row and the col refer out of an image
     UCHAR get_status = 0;
