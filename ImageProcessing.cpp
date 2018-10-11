@@ -37,6 +37,10 @@ ImageProcessing::ImageProcessing(UINT image_height, UINT image_width):height(ima
 // ... ... execution time is 4.647976 [sec]
 // ... 512pix*512pix*8bit の画像に16*1000回コントラスト変換実行
 // ... ... execution time is 49.928997 [sec]
+// 中の通常関数呼び出しを全部手動で展開すると
+// ... 512pix*512pix*8bit の画像に16*1000回コントラスト変換実行
+// ... ... execution time is 19.977270 [sec]
+
 // 全然差がない....
 
 void ImageProcessing::execute(){
