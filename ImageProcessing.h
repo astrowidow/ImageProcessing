@@ -19,7 +19,7 @@ public:
     virtual ~ImageProcessing();
 private:
     virtual void executeOpening() = 0;
-    virtual void executeProcess(UINT row, UINT col) = 0;
+    virtual void executeProcess() = 0;
     virtual void executeEnding() = 0;
 };
 

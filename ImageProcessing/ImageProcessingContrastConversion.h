@@ -19,7 +19,7 @@ private:
 public:
     ImageProcessingContrastConversion(Image* src_image, Image* dst_image, double gain, double offset);
     void executeOpening() override;
-    void executeProcess(UINT row, UINT col) override;
+    void executeProcess() override;
     void executeEnding() override;
     ~ImageProcessingContrastConversion() override;
 };

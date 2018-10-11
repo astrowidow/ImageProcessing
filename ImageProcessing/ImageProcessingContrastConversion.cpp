@@ -18,16 +18,32 @@ ImageProcessingContrastConversion::ImageProcessingContrastConversion
 
 void ImageProcessingContrastConversion::executeOpening() {}
 
-void ImageProcessingContrastConversion::executeProcess(UINT row, UINT col)
+//void ImageProcessingContrastConversion::executeProcess(UINT row, UINT col)
+//{
+//    BYTE* p_pixel_data = (BYTE*)src->getPixel(row, col);
+//    for(UCHAR i = 0; i < src->getBytePerPix(); i++){
+//        int data_temp = (int) (gain*p_pixel_data[i] + offset);
+//        if(data_temp > SATURATED_PIXEL) data_temp = SATURATED_PIXEL;
+//        if(data_temp < 0) data_temp = 0;
+//        p_pixel_data[i] = (BYTE)data_temp;
+//    }
+//    dst->setPixel(row, col, p_pixel_data);
+//}
+
+void ImageProcessingContrastConversion::executeProcess()
 {
-    BYTE* p_pixel_data = (BYTE*)src->getPixel(row, col);
-    for(UCHAR i = 0; i < src->getBytePerPix(); i++){
-        int data_temp = (int) (gain*p_pixel_data[i] + offset);
-        if(data_temp > SATURATED_PIXEL) data_temp = SATURATED_PIXEL;
-        if(data_temp < 0) data_temp = 0;
-        p_pixel_data[i] = (BYTE)data_temp;
+    for(UINT row = 0; row < height; row++){
+        for(UINT col = 0; col < width; col++){
+            BYTE* p_pixel_data = (BYTE*)src->getPixel(row, col);
+            for(UCHAR i = 0; i < src->getBytePerPix(); i++){
+                int data_temp = (int) (gain*p_pixel_data[i] + offset);
+                if(data_temp > SATURATED_PIXEL) data_temp = SATURATED_PIXEL;
+                if(data_temp < 0) data_temp = 0;
+                p_pixel_data[i] = (BYTE)data_temp;
+            }
+            dst->setPixel(row, col, p_pixel_data);
+        }
     }
-    dst->setPixel(row, col, p_pixel_data);
 }
 
 void ImageProcessingContrastConversion::executeEnding() {}

@@ -14,12 +14,12 @@ int main() {
     // strategy patternのテスト
 
     clock_t start = clock();
-    for(int i = 0; i < 16*1000; i++){
+    for(int i = 0; i < 16*10; i++){
         contrast_conversion->execute();
     }
     clock_t end = clock();
     printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
 
-    test.writeBitmap("../testImage/contrastTestAuto.bmp");
+    test.writeBitmap("../testImage/contrastTest.bmp");
     return 0;
 }
