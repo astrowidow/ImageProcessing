@@ -10,27 +10,16 @@ int main() {
     Pixel testPix(1);
     BYTE pix_data = 0;
 
-    //testPix.setData(&pix_data);
-//    for(UINT width = 0; width < 512; width++){
-//        for(UINT height = 0; height < 512; height++){
-//            shortPhaseImage.setPixel(width, height, &testPix);
-//        }
-//    }
-//    shortPhaseImage.writeBitmap("../testImage/black.bmp");
-
-//    for(UINT width = 0; width < 512; width++){
-//        for(UINT height = 0; height < 512; height++){
-//        //    longPhaseImage.getPixel(width, height, &testPix);
-//        //    shortPhaseImage.setPixel(width, height, &testPix);
-//        //    test.setPixel(width, height, &testPix);
-//            //printf("width = %d, height = %d, data is %x  %x  %x  %x\n", width, height, pix_data[0], pix_data[1], pix_data[2], pix_data[3]);
-//        }
-//    }
-//    shortPhaseImage.writeBitmap("../testImage/testGenerateByShortPhaseImage.bmp");
-//    test.writeBitmap("../testImage/testGenerateByTest.bmp");
+    auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&longPhaseImage, &test, 3, -150);
     // strategy patternのテスト
-    ImageProcessing* contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&longPhaseImage, &test, 3, -150);
-    contrast_conversion->execute();
-    test.writeBitmap("../testImage/contrastTestNoPixel.bmp");
+
+    clock_t start = clock();
+    for(int i = 0; i < 16*1000; i++){
+        contrast_conversion->execute();
+    }
+    clock_t end = clock();
+    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
+
+    test.writeBitmap("../testImage/contrastTestAuto.bmp");
     return 0;
 }
