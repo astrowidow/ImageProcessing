@@ -18,9 +18,7 @@ private:
     Pixel* pixel;
 public:
     ImageProcessingContrastConversion(Image* src_image, Image* dst_image, double gain, double offset);
-    void executeOpening() override;
-    void executeProcess() override;
-    void executeEnding() override;
+    void execute() override;
     ~ImageProcessingContrastConversion() override;
 };
 

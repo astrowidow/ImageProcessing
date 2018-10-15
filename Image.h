@@ -31,7 +31,6 @@ protected:
     UINT calcBytePerPixel(UINT depth);
 
 public:
-    // inline function
     inline void setPixel(int row,
                          int col,
                          void* value)
@@ -49,8 +48,14 @@ public:
         return;
     }
 
-    //void* getPixel(int row, int col)
     inline void* getPixel(int row, int col)
+    {
+        // get an address of the referred pixel
+        UINT pixel_position = col + row * width;
+        return &data[pixel_position*byte_per_pix];
+    }
+
+    inline void* getPixelWithLimit(int row, int col)
     {
         // select the nearest pixel if the row and the col refer out of an image
         row = 0 < row ? row : 0;
