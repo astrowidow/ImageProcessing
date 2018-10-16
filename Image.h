@@ -24,7 +24,7 @@ public:
     UINT getDepth();
     UINT getBytePerPix();
     UINT getDataSize();
-    BYTE* getData();
+    void* getData();
     virtual ~Image();
 protected:
     bool checkBytePerPixel(Pixel* arg_pixel);
@@ -43,7 +43,7 @@ public:
 
         UINT pixel_position = col + row * width;
         for(UCHAR i = 0; i < byte_per_pix; i++){
-            data[pixel_position*byte_per_pix] = *(BYTE*)value;
+            data[pixel_position*byte_per_pix + i] = ((BYTE*)value)[i];
         }
         return;
     }

@@ -3,23 +3,23 @@
 #include "ImageProcessing/ImageProcessingContrastConversion.h"
 
 int main() {
-    Bitmap longPhaseImage("../testImage/lena_gray.bmp");
-    Bitmap shortPhaseImage("../testImage/black.bmp");
+    Bitmap srcImage("../testImage/morning_glory.bmp");
+    //Bitmap srcImage("../testImage/lena_gray.bmp");
     //Bitmap shortPhaseImage("../testImage/lena_gray.bmp");
-    Bitmap test(512, 512, 8);
-    Pixel testPix(1);
-    BYTE pix_data = 0;
+    Bitmap test(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
 
-    auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&longPhaseImage, &test, 3, -150);
     // strategy patternのテスト
+    auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&srcImage, &test, 3, -150);
 
-    clock_t start = clock();
-    for(int i = 0; i < 16*1000; i++){
-        contrast_conversion->execute();
-    }
-    clock_t end = clock();
-    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
+//    clock_t start = clock();
+//    for(int i = 0; i < 16*1000; i++){
+//        contrast_conversion->execute();
+//    }
+//    clock_t end = clock();
+//    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
 
-    test.writeBitmap("../testImage/contrastTestINLINE.bmp");
+    contrast_conversion->execute();
+    test.writeBitmap("../testImage/dstTest.bmp");
+    //srcImage.writeBitmap("../testImage/dstTest.bmp");
     return 0;
 }

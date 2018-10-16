@@ -21,7 +21,7 @@ UINT Image::getBytePerPix(){
 UINT Image::getDataSize(){
     return data_size;
 }
-BYTE* Image::getData(){
+void* Image::getData(){
     return data;
 }
 
