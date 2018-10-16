@@ -6,7 +6,7 @@
 #define IMAGEPROCESSING_PROCESSSTRATEGYCONTRASTCONVERSION_H
 
 #include "../ImageProcessing.h"
-#include "../Bitmap.h"
+#include "../Image.h"
 
 class ImageProcessingContrastConversion : public ImageProcessing
 {
@@ -15,7 +15,6 @@ private:
     double offset;
     Image* dst;
     Image* src;
-    Pixel* pixel;
 public:
     ImageProcessingContrastConversion(Image* src_image, Image* dst_image, double gain, double offset);
     void execute() override;

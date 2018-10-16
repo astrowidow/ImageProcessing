@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Bitmap.h"
 #include "ImageProcessing/ImageProcessingContrastConversion.h"
+#include "ImageProcessing/ImageProcessingGammaCorrection.h"
 
 int main() {
     Bitmap srcImage("../testImage/morning_glory.bmp");
@@ -9,7 +10,8 @@ int main() {
     Bitmap test(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
 
     // strategy patternのテスト
-    auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&srcImage, &test, 3, -150);
+    //auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&srcImage, &test, 3, -150);
+    auto contrast_conversion = (ImageProcessing*) new ImageProcessingGammaCorrection(&srcImage, &test, 5);
 
 //    clock_t start = clock();
 //    for(int i = 0; i < 16*1000; i++){

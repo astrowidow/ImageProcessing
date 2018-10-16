@@ -35,11 +35,11 @@ public:
                          int col,
                          void* value)
     {
-        bool is_out_of_image = row < 0
-                               || height <= row
-                               || col < 0
-                               || width <= col;
-        if(is_out_of_image) return;
+//        bool is_out_of_image = row < 0
+//                               || height <= row
+//                               || col < 0
+//                               || width <= col;
+//        if(is_out_of_image) return;
 
         UINT pixel_position = col + row * width;
         for(UCHAR i = 0; i < byte_per_pix; i++){
