@@ -14,9 +14,9 @@ ImageProcessingGammaCorrection::ImageProcessingGammaCorrection
     dst = dst_image;
 
     double base;
-    for(int i = 0; i <= BYTE_MAX; i++){
+    for(int i = 0; i < EIGHT_BITS_GRADATION_NUM; i++){
         base = (double)i/BYTE_MAX;
-        result_table[i] = (BYTE) (pow(base, gamma)*BYTE_MAX);
+        result_table[i] = (BYTE) (pow(base, 1.0/gamma)*BYTE_MAX);
     }
 }
 

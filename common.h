@@ -9,6 +9,7 @@
 #define BYTE_IN_BITS (8)
 #define SATURATED_PIXEL (0xFF)
 #define BYTE_MAX (0xFF)
+#define EIGHT_BITS_GRADATION_NUM (256)
 typedef unsigned char BYTE;
 typedef unsigned int UINT;
 typedef unsigned char UCHAR;
