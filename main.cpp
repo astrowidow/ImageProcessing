@@ -10,8 +10,8 @@ int main() {
     Bitmap test(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
 
     // strategy patternのテスト
-    //auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&srcImage, &test, 3, -150);
-    auto contrast_conversion = (ImageProcessing*) new ImageProcessingGammaCorrection(&srcImage, &test, 2.2);
+    auto contrast_conversion = (ImageProcessing*) new ImageProcessingContrastConversion(&srcImage, &test, 3, -150);
+    //auto contrast_conversion = (ImageProcessing*) new ImageProcessingGammaCorrection(&srcImage, &test, 2.2);
 
     clock_t start = clock();
     for(int i = 0; i < 16*1000; i++){

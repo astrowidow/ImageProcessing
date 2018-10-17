@@ -48,25 +48,36 @@ public:
         return;
     }
 
+    inline BYTE getPixelByte(int row, int col, int byte_number = 0){
+        UINT pixel_position = col + row * width;
+        return data[pixel_position*byte_per_pix + byte_number];
+    }
+
+    inline void setPixelByte(int row, int col, BYTE pixel_data, int byte_number = 0){
+        UINT pixel_position = col + row * width;
+        data[pixel_position*byte_per_pix + byte_number] = pixel_data;
+        return;
+    }
+
     inline void* getPixel(int row, int col)
     {
         // get an address of the referred pixel
         UINT pixel_position = col + row * width;
         return &data[pixel_position*byte_per_pix];
     }
-
-    inline void* getPixelWithLimit(int row, int col)
-    {
-        // select the nearest pixel if the row and the col refer out of an image
-        row = 0 < row ? row : 0;
-        row = row < height ? row : height - 1;
-        col = 0 < col ? col : 0;
-        col = col < width ? col : width - 1;
-
-        // get an address of the referred pixel
-        UINT pixel_position = col + row * width;
-        return &data[pixel_position*byte_per_pix];
-    }
+//
+//    inline void* getPixelWithLimit(int row, int col)
+//    {
+//        // select the nearest pixel if the row and the col refer out of an image
+//        row = 0 < row ? row : 0;
+//        row = row < height ? row : height - 1;
+//        col = 0 < col ? col : 0;
+//        col = col < width ? col : width - 1;
+//
+//        // get an address of the referred pixel
+//        UINT pixel_position = col + row * width;
+//        return &data[pixel_position*byte_per_pix];
+//    }
 };
 
 
