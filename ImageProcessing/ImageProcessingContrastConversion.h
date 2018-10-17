@@ -15,6 +15,7 @@ private:
     double offset;
     Image* dst;
     Image* src;
+    BYTE result_table[EIGHT_BITS_GRADATION_NUM]; // computed in constructor
 public:
     ImageProcessingContrastConversion(Image* src_image, Image* dst_image, double gain, double offset);
     void execute() override;

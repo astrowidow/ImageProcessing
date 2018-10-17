@@ -49,6 +49,10 @@ public:
     }
 
     inline BYTE getPixelByte(int row, int col, int byte_number = 0){
+//        row = 0 < row ? row : 0;
+//        row = row < height ? row : height - 1;
+//        col = 0 < col ? col : 0;
+//        col = col < width ? col : width - 1;
         UINT pixel_position = col + row * width;
         return data[pixel_position*byte_per_pix + byte_number];
     }
