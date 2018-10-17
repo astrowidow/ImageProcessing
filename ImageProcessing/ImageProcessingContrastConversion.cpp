@@ -29,8 +29,6 @@ void ImageProcessingContrastConversion::execute()
     Image* source = src;
     Image* destination = dst;
     UINT byte_per_pixel = source->getBytePerPix();
-    //BYTE src_pixel_data;
-    //BYTE dst_pixel_data;// = new BYTE[byte_per_pixel];
     BYTE pixel_data;
 
     // processing

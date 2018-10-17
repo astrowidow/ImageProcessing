@@ -26,20 +26,17 @@ void ImageProcessingGammaCorrection::execute()
     Image* source = src;
     Image* destination = dst;
     UINT byte_per_pixel = source->getBytePerPix();
-    BYTE* p_src_pixel_data;
-    BYTE* p_dst_pixel_data;// = new BYTE[byte_per_pixel];
-    int pixel_data;
+    BYTE pixel_data;
 
     // processing
     for(UINT row = 0; row < height; row++){
         for(UINT col = 0; col < width; col++){
-            p_src_pixel_data = (BYTE*)source->getPixel(row, col);
-            p_dst_pixel_data = (BYTE*)destination->getPixel(row, col);
             for(UCHAR i = 0; i < byte_per_pixel; i++){
                 // gamma correction
-                pixel_data = result_table[p_src_pixel_data[i]];
+                pixel_data = source->getPixelByte(row, col, i);
+                pixel_data = result_table[pixel_data];
                 // set the data to dst
-                p_dst_pixel_data[i] = (BYTE)pixel_data;
+                destination->setPixelByte(row, col, (BYTE)pixel_data, i);
             }
         }
     }
