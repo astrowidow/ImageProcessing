@@ -1,33 +1,32 @@
 //
-// Created by 俵京佑 on 2018/09/25.
+// Created by 俵京佑 on 2018/10/18.
 //
 
-#include "ImageProcessingContrastConversion.h"
-#include "../Image.h"
+#include "ImageProcessingHistogramExtension.h"
 
-ImageProcessingContrastConversion::ImageProcessingContrastConversion
+ImageProcessingHistogramExtension::ImageProcessingHistogramExtension
         (Image* src_image,
-         Image* dst_image,
-         double gain,
-         double offset)
+         Image* dst_image)
         : ImageProcessing(src_image->getHeight(),
                           src_image->getWidth(),
-                          src_image->getBytePerPix()),
-          gain(gain), offset(offset)
+                          src_image->getBytePerPix())
 {
     src = src_image;
     dst = dst_image;
+    for(UINT row = 0; row < height; row++){
+        for(UINT col = 0; col < width; col++){
+            for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
 
-    double result_temp;
+            }
+        }
+    }
+
     for(int i = 0; i < EIGHT_BITS_GRADATION_NUM; i++){
-        result_temp = gain*(double)i + offset;
-        if(result_temp > SATURATED_PIXEL) result_temp = SATURATED_PIXEL;
-        if(result_temp < 0) result_temp = 0;
-        result_table[i] = (BYTE)result_temp;
+
     }
 }
 
-void ImageProcessingContrastConversion::execute()
+void ImageProcessingHistogramExtension::execute()
 {
     // declaration
     Image* source = src;
@@ -38,7 +37,7 @@ void ImageProcessingContrastConversion::execute()
     for(UINT row = 0; row < height; row++){
         for(UINT col = 0; col < width; col++){
             for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
-                // linear contrast conversion
+                // gamma correction
                 pixel_data = source->getPixelByte(row, col, byte_num);
                 pixel_data = result_table[pixel_data];
                 // set the data to dst
@@ -48,6 +47,6 @@ void ImageProcessingContrastConversion::execute()
     }
 }
 
-ImageProcessingContrastConversion::~ImageProcessingContrastConversion(){
+ImageProcessingHistogramExtension::~ImageProcessingHistogramExtension(){
     // do nothing
 }

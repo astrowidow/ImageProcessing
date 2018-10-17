@@ -8,7 +8,11 @@
 ImageProcessingGammaCorrection::ImageProcessingGammaCorrection
         (Image* src_image,
          Image* dst_image,
-         double gamma) : ImageProcessing(src_image->getHeight(), src_image->getWidth()), gamma(gamma)
+         double gamma)
+        : ImageProcessing(src_image->getHeight(),
+                          src_image->getWidth(),
+                          src_image->getBytePerPix()),
+          gamma(gamma)
 {
     src = src_image;
     dst = dst_image;
@@ -25,7 +29,6 @@ void ImageProcessingGammaCorrection::execute()
     // declaration
     Image* source = src;
     Image* destination = dst;
-    UINT byte_per_pixel = source->getBytePerPix();
     BYTE pixel_data;
 
     // processing

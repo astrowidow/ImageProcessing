@@ -49,8 +49,9 @@ class ImageProcessing {
 protected:
     UINT height;
     UINT width;
+    UINT byte_per_pixel;
 public:
-    ImageProcessing(UINT image_height, UINT image_width);
+    ImageProcessing(UINT image_height, UINT image_width, UINT image_byte_per_pixel);
     virtual void execute() = 0;
     virtual ~ImageProcessing();
 };

@@ -4,7 +4,8 @@
 
 #include "ImageProcessing.h"
 
-ImageProcessing::ImageProcessing(UINT image_height, UINT image_width):height(image_height), width(image_width)
+ImageProcessing::ImageProcessing(UINT image_height, UINT image_width, UINT image_byte_per_pixel)
+        :height(image_height), width(image_width), byte_per_pixel(image_byte_per_pixel)
 {
 }
 
