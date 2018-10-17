@@ -31,12 +31,12 @@ void ImageProcessingGammaCorrection::execute()
     // processing
     for(UINT row = 0; row < height; row++){
         for(UINT col = 0; col < width; col++){
-            for(UCHAR i = 0; i < byte_per_pixel; i++){
+            for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
                 // gamma correction
-                pixel_data = source->getPixelByte(row, col, i);
+                pixel_data = source->getPixelByte(row, col, byte_num);
                 pixel_data = result_table[pixel_data];
                 // set the data to dst
-                destination->setPixelByte(row, col, (BYTE)pixel_data, i);
+                destination->setPixelByte(row, col, (BYTE)pixel_data, byte_num);
             }
         }
     }
