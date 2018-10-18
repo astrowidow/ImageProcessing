@@ -11,21 +11,28 @@
 
 class Image {
 protected:
+    // must be set
     UINT width;
     UINT height;
     UINT depth;
     UINT byte_per_pix;
     UINT data_size;
     BYTE* data;
+
+    // optional
+    UINT* histogram;
+
 public:
     Image();
     UINT getWidth();
     UINT getHeight();
     UINT getDepth();
     UINT getBytePerPix();
+    UINT* calcHistogram();
     UINT getDataSize();
     void* getData();
-    virtual ~Image() = default;
+    virtual ~Image();
+
 protected:
     bool checkBytePerPixel(Pixel* arg_pixel);
     UINT calcBytePerPixel(UINT depth);
