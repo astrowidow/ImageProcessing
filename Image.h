@@ -25,7 +25,7 @@ public:
     UINT getBytePerPix();
     UINT getDataSize();
     void* getData();
-    virtual ~Image();
+    virtual ~Image() = default;
 protected:
     bool checkBytePerPixel(Pixel* arg_pixel);
     UINT calcBytePerPixel(UINT depth);

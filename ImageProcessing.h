@@ -47,13 +47,16 @@
 
 class ImageProcessing {
 protected:
+    Image* src_base;
+    Image* dst_base;
     UINT height;
     UINT width;
     UINT byte_per_pixel;
+    BYTE result_table[EIGHT_BITS_GRADATION_NUM];
 public:
-    ImageProcessing(UINT image_height, UINT image_width, UINT image_byte_per_pixel);
-    virtual void execute() = 0;
-    virtual ~ImageProcessing();
+    ImageProcessing(Image* src_image, Image* dst_image);
+    virtual void execute();
+    virtual ~ImageProcessing() = default;
 };
 
 

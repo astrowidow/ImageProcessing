@@ -11,14 +11,10 @@
 class ImageProcessingGammaCorrection : public ImageProcessing
 {
 private:
-    Image* dst;
-    Image* src;
     double gamma;
-    BYTE result_table[EIGHT_BITS_GRADATION_NUM]; // computed in constructor
 public:
     ImageProcessingGammaCorrection(Image* src_image, Image* dst_image, double gamma);
-    void execute() override;
-    ~ImageProcessingGammaCorrection() override;
+    ~ImageProcessingGammaCorrection() override = default;
 };
 
 

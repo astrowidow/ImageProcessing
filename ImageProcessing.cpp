@@ -4,10 +4,31 @@
 
 #include "ImageProcessing.h"
 
-ImageProcessing::ImageProcessing(UINT image_height, UINT image_width, UINT image_byte_per_pixel)
-        :height(image_height), width(image_width), byte_per_pixel(image_byte_per_pixel)
+ImageProcessing::ImageProcessing(Image* src_image, Image* dst_image)
+        :src_base(src_image),
+         dst_base(dst_image),
+         height(src_image->getHeight()),
+         width(src_image->getWidth()),
+         byte_per_pixel(src_image->getBytePerPix())
 {
 }
 
-ImageProcessing::~ImageProcessing() {
+void ImageProcessing::execute(){
+    // declaration
+    Image* source = src_base;
+    Image* destination = dst_base;
+    BYTE pixel_data;
+
+    // processing
+    for(UINT row = 0; row < height; row++){
+        for(UINT col = 0; col < width; col++){
+            for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
+                // gamma correction
+                pixel_data = source->getPixelByte(row, col, byte_num);
+                pixel_data = result_table[pixel_data];
+                // set the data to dst_base
+                destination->setPixelByte(row, col, pixel_data, byte_num);
+            }
+        }
+    }
 }
