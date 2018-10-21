@@ -5,10 +5,10 @@
 #ifndef IMAGEPROCESSING_PROCESSSTRATEGYCONTRASTCONVERSION_H
 #define IMAGEPROCESSING_PROCESSSTRATEGYCONTRASTCONVERSION_H
 
-#include "../ImageProcessing.h"
 #include "../Image.h"
+#include "ImageProcessingUsingResultTable.h"
 
-class ImageProcessingContrastConversion : public ImageProcessing
+class ImageProcessingContrastConversion : public ImageProcessingUsingResultTable
 {
 private:
     double gain;

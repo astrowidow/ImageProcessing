@@ -26,10 +26,7 @@ UINT Image::getDataSize(){
 void* Image::getData(){
     return data;
 }
-UINT* Image::calcHistogram(){
-    if(data == nullptr){
-        return nullptr;
-    }
+void Image::calcHistogram(){
     memset(histogram, 0x00, sizeof(UINT)*EIGHT_BITS_GRADATION_NUM*byte_per_pix);
 
     BYTE pixel_data;
@@ -43,9 +40,8 @@ UINT* Image::calcHistogram(){
             }
         }
     }
-
-    return histogram;
 }
+
 Image::~Image(){
     delete[] histogram;
     histogram = nullptr;

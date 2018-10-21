@@ -28,7 +28,7 @@ public:
     UINT getHeight();
     UINT getDepth();
     UINT getBytePerPix();
-    UINT* calcHistogram();
+    void calcHistogram();
     UINT getDataSize();
     void* getData();
     virtual ~Image();
@@ -52,7 +52,6 @@ public:
         for(UCHAR i = 0; i < byte_per_pix; i++){
             data[pixel_position*byte_per_pix + i] = ((BYTE*)value)[i];
         }
-        return;
     }
 
     inline BYTE getPixelByte(int row, int col, int byte_number = 0){
@@ -67,7 +66,6 @@ public:
     inline void setPixelByte(int row, int col, BYTE pixel_data, int byte_number = 0){
         UINT pixel_position = col + row * width;
         data[pixel_position*byte_per_pix + byte_number] = pixel_data;
-        return;
     }
 
     inline void* getPixel(int row, int col)
@@ -75,6 +73,10 @@ public:
         // get an address of the referred pixel
         UINT pixel_position = col + row * width;
         return &data[pixel_position*byte_per_pix];
+    }
+
+    inline UINT getFrequencyOfPixelValue(BYTE pixel_value, int byte_number = 0){
+        return histogram[pixel_value*byte_per_pix + byte_number];
     }
 //
 //    inline void* getPixelWithLimit(int row, int col)
@@ -89,6 +91,10 @@ public:
 //        UINT pixel_position = col + row * width;
 //        return &data[pixel_position*byte_per_pix];
 //    }
+
+    inline UINT* getHistogram(){
+        return histogram;
+    }
 };
 
 

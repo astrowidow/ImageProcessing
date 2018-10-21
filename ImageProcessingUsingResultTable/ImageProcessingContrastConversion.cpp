@@ -1,15 +1,16 @@
 //
-// Created by 俵京佑 on 2018/10/18.
+// Created by 俵京佑 on 2018/09/25.
 //
 
-#include "ImageProcessingHistogramExtension.h"
+#include "ImageProcessingContrastConversion.h"
+#include "../Image.h"
 
-ImageProcessingHistogramExtension::ImageProcessingHistogramExtension
+ImageProcessingContrastConversion::ImageProcessingContrastConversion
         (Image* src_image,
          Image* dst_image,
          double gain,
          double offset)
-        : ImageProcessing(src_image,
+        : ImageProcessingUsingResultTable(src_image,
                           dst_image),
           gain(gain), offset(offset)
 {

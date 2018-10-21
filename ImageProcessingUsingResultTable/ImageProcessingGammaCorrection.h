@@ -5,10 +5,9 @@
 #ifndef IMAGEPROCESSING_IMAGEPROCESSINGGAMMACORRECTION_H
 #define IMAGEPROCESSING_IMAGEPROCESSINGGAMMACORRECTION_H
 
+#include "ImageProcessingUsingResultTable.h"
 
-#include "../ImageProcessing.h"
-
-class ImageProcessingGammaCorrection : public ImageProcessing
+class ImageProcessingGammaCorrection : public ImageProcessingUsingResultTable
 {
 private:
     double gamma;

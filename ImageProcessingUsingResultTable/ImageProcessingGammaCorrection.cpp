@@ -9,8 +9,8 @@ ImageProcessingGammaCorrection::ImageProcessingGammaCorrection
         (Image* src_image,
          Image* dst_image,
          double gamma)
-        : ImageProcessing(src_image,
-                          dst_image),
+        : ImageProcessingUsingResultTable(src_image,
+                                          dst_image),
           gamma(gamma)
 {
     double base;
