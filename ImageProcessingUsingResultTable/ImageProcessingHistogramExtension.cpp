@@ -54,6 +54,8 @@ ImageProcessingHistogramExtension::ImageProcessingHistogramExtension
                     (double) BYTE_MAX
                     *((double) i - (double) min_pixel[byte_num])
                     /((double) max_pixel[byte_num] - (double) min_pixel[byte_num]);
+            if (result_temp > BYTE_MAX) result_temp = BYTE_MAX;
+            if (result_temp < 0) result_temp = 0;
             result_table[byte_num][i] = (BYTE) result_temp;
         }
     }
