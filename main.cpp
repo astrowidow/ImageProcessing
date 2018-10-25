@@ -13,6 +13,7 @@ int main() {
     Bitmap srcImage("../testImage/lena_gray.bmp");
 
     Bitmap test(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
+    Bitmap test_(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
     //UINT* hist = test.calcHistogram();
 
     // strategy patternのテスト
@@ -23,6 +24,7 @@ int main() {
     //auto algorithm = (ImageProcessing*) new ImageProcessingNegative(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSolarization(&srcImage, &test, 3);
     auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtraction(&srcImage, &test);
+    //auto algorithm1 = (ImageProcessing*) new ImageProcessingHistogramExtension(&test, &test_, 1000);
 
 //    clock_t start = clock();
 //    for(int i = 0; i < 16*10; i++){
@@ -32,7 +34,8 @@ int main() {
 //    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
 
     algorithm->execute();
-    test.writeBitmap("../testImage/dstTest.bmp");
+    //algorithm1->execute();
+    test.writeBitmap("../testImage/dstTest_.bmp");
     //srcImage.writeBitmap("../testImage/dstTest.bmp");
 
     return 0;
