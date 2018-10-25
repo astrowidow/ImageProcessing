@@ -16,10 +16,21 @@ protected:
     UINT height;
     UINT width;
     UINT byte_per_pixel;
+    UINT mask_square_pixels;
+    // initialize in constructor
+    int** mask_coeff;
+    int mask_min_idx;
+    int mask_max_idx;
+    int gain;
+    int offset;
 public:
-    ImageProcessingUsingMaskPattern(Image* src_image, Image* dst_image);
+    ImageProcessingUsingMaskPattern(Image* src_image,
+                                    Image* dst_image,
+                                    UINT mask_square_pixels);
     virtual void execute() override;
-    virtual ~ImageProcessingUsingMaskPattern() override = default;
+    virtual void initializeGainAndOffset() = 0;
+    virtual void initializeMaskCoeff() = 0;
+    virtual ~ImageProcessingUsingMaskPattern() override;
 };
 
 #endif //IMAGEPROCESSINGUSINGRESULTTABLE_IMAGEPROCESSINGUSINGMASKPATTERN_H

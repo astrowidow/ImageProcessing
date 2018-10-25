@@ -23,7 +23,7 @@ void ImageProcessingUsingResultTable::execute(){
     for(UINT row = 0; row < height; row++){
         for(UINT col = 0; col < width; col++){
             for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
-                // gamma correction
+                // convert src data to processed data using result table
                 pixel_data = source->getPixelByte(row, col, byte_num);
                 pixel_data = result_table[pixel_data];
                 // set the data to dst_base
