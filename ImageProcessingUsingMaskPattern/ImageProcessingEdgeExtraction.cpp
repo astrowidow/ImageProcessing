@@ -9,7 +9,8 @@ ImageProcessingEdgeExtraction::ImageProcessingEdgeExtraction(Image* src_image,
                                                              Image* dst_image)
         : ImageProcessingUsingMaskPattern(src_image,
                                         dst_image,
-                                        mask_square_pixels)
+                                        mask_square_pixels),
+          during_sum(0)
 {
     // initialize gain and offset
     initializeGainAndOffset();
@@ -31,6 +32,16 @@ void ImageProcessingEdgeExtraction::initializeMaskCoeff(){
 }
 
 void ImageProcessingEdgeExtraction::initializeGainAndOffset(){
-    gain = 1;
-    offset = 0;
+    //gain = 1;
+    //offset = 0;
+}
+
+void ImageProcessingEdgeExtraction::storeMaskedPixels(UINT row, UINT col, BYTE value){
+    during_sum += value*mask_coeff[row][col];
+}
+
+int ImageProcessingEdgeExtraction::getResultPixel() {
+    int temp = during_sum;
+    during_sum = 0;
+    return temp;
 }

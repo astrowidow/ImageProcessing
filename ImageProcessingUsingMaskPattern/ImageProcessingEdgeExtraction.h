@@ -9,11 +9,15 @@
 
 class ImageProcessingEdgeExtraction : public ImageProcessingUsingMaskPattern
 {
+private:
+    int during_sum;
 public:
     ImageProcessingEdgeExtraction(Image* src_image,
                                   Image* dst_image);
     void initializeGainAndOffset() override;
     void initializeMaskCoeff() override;
+    void storeMaskedPixels(UINT row, UINT col, BYTE value) override;
+    int getResultPixel() override;
     ~ImageProcessingEdgeExtraction() = default;
 };
 
