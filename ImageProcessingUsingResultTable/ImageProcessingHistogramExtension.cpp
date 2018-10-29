@@ -19,15 +19,40 @@ ImageProcessingHistogramExtension::ImageProcessingHistogramExtension
     for(int byte_num = 0; byte_num < byte_per_pixel; byte_num++){
         result_table[byte_num] = new BYTE[EIGHT_BITS_GRADATION_NUM];
     }
+}
 
+void ImageProcessingHistogramExtension::execute(){
     // initialize
-    src_image->calcHistogram();
+    initialize();
+
+    // declaration
+    Image* source = src_base;
+    Image* destination = dst_base;
+    BYTE pixel_data;
+
+    // processing
+    for(UINT row = 0; row < height; row++){
+        for(UINT col = 0; col < width; col++){
+            for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
+                // gamma correction
+                pixel_data = source->getPixelByte(row, col, byte_num);
+                pixel_data = result_table[byte_num][pixel_data];
+                // set the data to dst_base
+                destination->setPixelByte(row, col, pixel_data, byte_num);
+            }
+        }
+    }
+}
+
+void ImageProcessingHistogramExtension::initialize(){
+    // initialize
+    src_base->calcHistogram();
 
     // set minimum pixel value
     UINT frequency;
     for(UINT byte_num = 0; byte_num < byte_per_pixel; byte_num++){
         for(UINT pixel_value = 0; pixel_value < EIGHT_BITS_GRADATION_NUM; pixel_value++){
-            frequency = src_image->getFrequencyOfPixelValue(pixel_value, byte_num);
+            frequency = src_base->getFrequencyOfPixelValue(pixel_value, byte_num);
             if(frequency >= neglect_threshold){
                 min_pixel[byte_num] = (BYTE)pixel_value;
                 break;
@@ -38,7 +63,7 @@ ImageProcessingHistogramExtension::ImageProcessingHistogramExtension
     // set max pixel value
     for(UINT byte_num = 0; byte_num < byte_per_pixel; byte_num++){
         for(UINT pixel_value = BYTE_MAX; pixel_value >= 0; pixel_value--){
-            frequency = src_image->getFrequencyOfPixelValue(pixel_value, byte_num);
+            frequency = src_base->getFrequencyOfPixelValue(pixel_value, byte_num);
             if(frequency >= neglect_threshold){
                 max_pixel[byte_num] = (BYTE)pixel_value;
                 break;
@@ -61,25 +86,7 @@ ImageProcessingHistogramExtension::ImageProcessingHistogramExtension
     }
 }
 
-void ImageProcessingHistogramExtension::execute(){
-    // declaration
-    Image* source = src_base;
-    Image* destination = dst_base;
-    BYTE pixel_data;
 
-    // processing
-    for(UINT row = 0; row < height; row++){
-        for(UINT col = 0; col < width; col++){
-            for(UCHAR byte_num = 0; byte_num < byte_per_pixel; byte_num++){
-                // gamma correction
-                pixel_data = source->getPixelByte(row, col, byte_num);
-                pixel_data = result_table[byte_num][pixel_data];
-                // set the data to dst_base
-                destination->setPixelByte(row, col, pixel_data, byte_num);
-            }
-        }
-    }
-}
 
 ImageProcessingHistogramExtension::~ImageProcessingHistogramExtension() {
     delete[] max_pixel;

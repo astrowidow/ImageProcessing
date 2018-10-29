@@ -23,7 +23,8 @@ protected:
     UINT* histogram;
 
 public:
-    Image();
+    Image() = default;
+    Image(UINT width, UINT height, UINT depth);
     UINT getWidth();
     UINT getHeight();
     UINT getDepth();
@@ -36,7 +37,7 @@ public:
 protected:
     bool checkBytePerPixel(Pixel* arg_pixel);
     UINT calcBytePerPixel(UINT depth);
-
+    void initImage(UINT width, UINT height, UINT depth);
 public:
     inline void setPixel(int row,
                          int col,

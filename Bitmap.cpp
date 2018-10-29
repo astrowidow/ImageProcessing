@@ -7,14 +7,9 @@
 
 #define MONOCHROME_PALLET_NUM (256)
 
-Bitmap::Bitmap(UINT w, UINT h, UINT d){
-    width = w;
-    height = h;
-    depth = d;
-    byte_per_pix = calcBytePerPixel(depth);
-    data_size = width * height * byte_per_pix;
-    // malloc
-    data = new BYTE[data_size];
+Bitmap::Bitmap(UINT w, UINT h, UINT d)
+        :Image(w, h, d)
+{
     pallet_data = new ColorPallet;
 }
 
@@ -36,6 +31,9 @@ Bitmap::Bitmap(char* file_name){
     fread(&core_header.height, sizeof(core_header.height), data_num, fp);
     fread(&core_header.planes, sizeof(core_header.planes), data_num, fp);
     fread(&core_header.bit_count, sizeof(core_header.bit_count), data_num, fp);
+
+    // call constructor
+    initImage(core_header.width, core_header.height, core_header.bit_count);
 
     // if header style is "bitmap info header",
     // read additional data
@@ -85,7 +83,6 @@ Bitmap::Bitmap(char* file_name){
     // ... get image data size
     UINT image_data_size = core_header.height*core_header.width*byte_p_pix;
     // ... read image data
-    data = new BYTE[image_data_size];
     fread(data, image_data_size, data_num, fp);
 
     // set important parameter
@@ -226,6 +223,4 @@ void Bitmap::writeBitmap(char *file_name){
 Bitmap::~Bitmap() {
     //free(pallet_data);
     delete[] pallet_data;
-    //free(data);
-    delete[] data;
 }

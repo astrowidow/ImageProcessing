@@ -22,6 +22,8 @@ public:
                                       UINT neglect_threshold = 1); // threshold for store the limit value
     void execute() override;
     ~ImageProcessingHistogramExtension() override;
+private:
+    void initialize();
 };
 
 

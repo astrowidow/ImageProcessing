@@ -4,8 +4,25 @@
 
 #include "Image.h"
 
-Image::Image() {
+Image::Image(UINT width, UINT height, UINT depth)
+        : width(width),
+          height(height),
+          depth(depth),
+          byte_per_pix(calcBytePerPixel(depth)),
+          data_size(width*height*byte_per_pix)
+{
     histogram = new UINT[EIGHT_BITS_GRADATION_NUM*byte_per_pix];
+    data = new BYTE[data_size];
+}
+
+void Image::initImage(UINT width, UINT height, UINT depth) {
+    this->width = width;
+    this->height = height;
+    this->depth = depth;
+    this->byte_per_pix = calcBytePerPixel(depth);
+    this->data_size = width*height*this->byte_per_pix;
+    this->histogram = new UINT[EIGHT_BITS_GRADATION_NUM*this->byte_per_pix];
+    this->data = new BYTE[this->data_size];
 }
 
 UINT Image::getWidth(){
@@ -27,6 +44,7 @@ void* Image::getData(){
     return data;
 }
 void Image::calcHistogram(){
+    // initialize memory
     memset(histogram, 0x00, sizeof(UINT)*EIGHT_BITS_GRADATION_NUM*byte_per_pix);
 
     BYTE pixel_data;
@@ -40,11 +58,19 @@ void Image::calcHistogram(){
             }
         }
     }
+//    int sum = 0;
+//    for(int i = 0; i < EIGHT_BITS_GRADATION_NUM; i++){
+//        printf("freq of %d if %d\n", i, histogram[i]);
+//        sum += histogram[i];
+//    }
+//    printf("pixel num is %d", sum);
 }
 
 Image::~Image(){
     delete[] histogram;
+    delete[] data;
     histogram = nullptr;
+    data = nullptr;
 }
 
 UINT Image::calcBytePerPixel(UINT depth){
