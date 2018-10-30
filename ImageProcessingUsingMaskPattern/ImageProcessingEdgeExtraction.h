@@ -18,7 +18,7 @@ public:
     void initializeMaskCoeff() override;
     void storeMaskedPixels(UINT row, UINT col, BYTE value) override;
     int getResultPixel() override;
-    ~ImageProcessingEdgeExtraction() = default;
+    ~ImageProcessingEdgeExtraction() override = default;
 };
 
 

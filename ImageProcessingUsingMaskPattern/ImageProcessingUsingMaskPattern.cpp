@@ -82,6 +82,8 @@ void ImageProcessingUsingMaskPattern::execute(){
 ImageProcessingUsingMaskPattern::~ImageProcessingUsingMaskPattern(){
     for(int i = 0; i < mask_square_pixels; i++){
         delete[] mask_coeff[i];
+        delete[] mask_result[i];
     }
+    delete[] mask_result;
     delete[] mask_coeff;
 }
