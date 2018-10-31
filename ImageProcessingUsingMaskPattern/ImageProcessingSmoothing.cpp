@@ -22,7 +22,7 @@ ImageProcessingSmoothing::ImageProcessingSmoothing(Image* src_image,
 void ImageProcessingSmoothing::initializeMaskCoeff(){
     for(int i = 0; i < mask_square_pixels; i++){
         for(int j = 0; j < mask_square_pixels; j++){
-            mask_coeff[i][j] = 1;
+            mask_coeff[0][i][j] = 1;
         }
     }
 }
@@ -31,8 +31,8 @@ void ImageProcessingSmoothing::initializeGainAndOffset(){
     gain = mask_square_pixels*mask_square_pixels;
 }
 
-void ImageProcessingSmoothing::storeMaskedPixels(UINT row, UINT col, BYTE value){
-    during_sum += value*mask_coeff[row][col];
+void ImageProcessingSmoothing::storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE value){
+    during_sum += value*mask_coeff[mask_pat_no][row][col];
 }
 
 int ImageProcessingSmoothing::getResultPixel() {

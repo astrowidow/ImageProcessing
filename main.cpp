@@ -29,17 +29,17 @@ int main() {
     //auto algorithm = (ImageProcessing*) new ImageProcessingSolarization(&srcImage, &test, 3);
     //auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtraction(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSmoothing(&srcImage, &test, 10);
-    //auto algorithm = (ImageProcessing*) new ImageProcessingAverageSmoothing(&srcImage, &test);
+    auto algorithm = (ImageProcessing*) new ImageProcessingAverageSmoothing(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSharpening(&srcImage, &test);
-    auto algorithm = (ImageProcessing*) new ImageProcessingEmboss(&srcImage, &test);
+    //auto algorithm = (ImageProcessing*) new ImageProcessingEmboss(&srcImage, &test);
     //auto algorithm1 = (ImageProcessing*) new ImageProcessingHistogramExtension(&test, &test_, 10);
 
-//    clock_t start = clock();
-//    for(int i = 0; i < 16*100; i++){
-//        algorithm->execute();
-//    }
-//    clock_t end = clock();
-//    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
+    clock_t start = clock();
+    for(int i = 0; i < 16*100; i++){
+        algorithm->execute();
+    }
+    clock_t end = clock();
+    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
 
     algorithm->execute();
     //algorithm1->execute();

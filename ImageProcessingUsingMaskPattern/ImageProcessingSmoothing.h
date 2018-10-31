@@ -19,7 +19,7 @@ public:
                              UINT mask_square_pix);
     void initializeGainAndOffset() override;
     void initializeMaskCoeff() override;
-    void storeMaskedPixels(UINT row, UINT col, BYTE value) override;
+    void storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE value) override;
     int getResultPixel() override;
     ~ImageProcessingSmoothing() override = default;
 };

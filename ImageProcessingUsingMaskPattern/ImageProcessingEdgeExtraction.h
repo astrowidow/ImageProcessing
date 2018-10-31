@@ -16,7 +16,7 @@ public:
                                   Image* dst_image);
     void initializeGainAndOffset() override;
     void initializeMaskCoeff() override;
-    void storeMaskedPixels(UINT row, UINT col, BYTE value) override;
+    void storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE value) override;
     int getResultPixel() override;
     ~ImageProcessingEdgeExtraction() override = default;
 };

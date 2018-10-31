@@ -21,23 +21,26 @@ ImageProcessingAverageSmoothing::ImageProcessingAverageSmoothing(Image* src_imag
 }
 
 void ImageProcessingAverageSmoothing::initializeMaskCoeff(){
-    mask_coeff[0][0] = 1;
-    mask_coeff[0][1] = 1;
-    mask_coeff[0][2] = 1;
-    mask_coeff[1][0] = 1;
-    mask_coeff[1][1] = 4;
-    mask_coeff[1][2] = 1;
-    mask_coeff[2][0] = 1;
-    mask_coeff[2][1] = 1;
-    mask_coeff[2][2] = 1;
+    mask_coeff[0][0][0] = 1;
+    mask_coeff[0][0][1] = 1;
+    mask_coeff[0][0][2] = 1;
+    mask_coeff[0][1][0] = 1;
+    mask_coeff[0][1][1] = 4;
+    mask_coeff[0][1][2] = 1;
+    mask_coeff[0][2][0] = 1;
+    mask_coeff[0][2][1] = 1;
+    mask_coeff[0][2][2] = 1;
 }
 
 void ImageProcessingAverageSmoothing::initializeGainAndOffset(){
     gain = 12;
 }
 
-void ImageProcessingAverageSmoothing::storeMaskedPixels(UINT row, UINT col, BYTE value){
-    during_sum += value*mask_coeff[row][col];
+void ImageProcessingAverageSmoothing::storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE value){
+    during_sum += value*mask_coeff[mask_pat_no][row][col];
+//    for(int i = 0; i < 2; i++){
+//        during_sum += value*mask_coeff[row][col];
+//    }
 }
 
 int ImageProcessingAverageSmoothing::getResultPixel() {

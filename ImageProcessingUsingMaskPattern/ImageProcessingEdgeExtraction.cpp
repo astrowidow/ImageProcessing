@@ -20,15 +20,15 @@ ImageProcessingEdgeExtraction::ImageProcessingEdgeExtraction(Image* src_image,
 }
 
 void ImageProcessingEdgeExtraction::initializeMaskCoeff(){
-    mask_coeff[0][0] = 0;
-    mask_coeff[0][1] = -1;
-    mask_coeff[0][2] = 0;
-    mask_coeff[1][0] = -1;
-    mask_coeff[1][1] = 0;
-    mask_coeff[1][2] = 1;
-    mask_coeff[2][0] = 0;
-    mask_coeff[2][1] = 1;
-    mask_coeff[2][2] = 0;
+    mask_coeff[0][0][0] = 0;
+    mask_coeff[0][0][1] = -1;
+    mask_coeff[0][0][2] = 0;
+    mask_coeff[0][1][0] = -1;
+    mask_coeff[0][1][1] = 0;
+    mask_coeff[0][1][2] = 1;
+    mask_coeff[0][2][0] = 0;
+    mask_coeff[0][2][1] = 1;
+    mask_coeff[0][2][2] = 0;
 }
 
 void ImageProcessingEdgeExtraction::initializeGainAndOffset(){
@@ -36,8 +36,8 @@ void ImageProcessingEdgeExtraction::initializeGainAndOffset(){
     //offset = 0;
 }
 
-void ImageProcessingEdgeExtraction::storeMaskedPixels(UINT row, UINT col, BYTE value){
-    during_sum += value*mask_coeff[row][col];
+void ImageProcessingEdgeExtraction::storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE value){
+    during_sum += value*mask_coeff[mask_pat_no][row][col];
 }
 
 int ImageProcessingEdgeExtraction::getResultPixel() {
