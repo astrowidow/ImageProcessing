@@ -4,7 +4,7 @@
 
 #include "ImageProcessingUsingMaskPattern.h"
 
-#define MASK_NUM (30)
+//#define MASK_NUM (30)
 
 ImageProcessingUsingMaskPattern::ImageProcessingUsingMaskPattern(Image* src_image,
                                                                  Image* dst_image,
@@ -28,8 +28,8 @@ ImageProcessingUsingMaskPattern::ImageProcessingUsingMaskPattern(Image* src_imag
 
     // initial malloc mask pattern
 
-    mask_coeff = new int**[MASK_NUM];
-    for(int j = 0; j < MASK_NUM; j++){
+    mask_coeff = new int**[mask_pat_num];
+    for(int j = 0; j < mask_pat_num; j++){
         mask_coeff[j] = new int*[mask_square_pixels];
         for(int i = 0; i < mask_square_pixels; i++){
             mask_coeff[j][i] = new int[mask_square_pixels];
@@ -92,7 +92,7 @@ void ImageProcessingUsingMaskPattern::execute(){
 }
 
 ImageProcessingUsingMaskPattern::~ImageProcessingUsingMaskPattern(){
-    for(int j = 0; j < MASK_NUM; j++){
+    for(int j = 0; j < mask_pat_num; j++){
         for(int i = 0; i < mask_square_pixels; i++){
             delete[] mask_coeff[j][i];
         }

@@ -6,11 +6,12 @@
 #include "ImageProcessingUsingResultTable/ImageProcessingSigmoidConversion.h"
 #include "ImageProcessingUsingResultTable/ImageProcessingNegative.h"
 #include "ImageProcessingUsingResultTable/ImageProcessingSolarization.h"
-#include "ImageProcessingUsingMaskPattern/ImageProcessingEdgeExtraction.h"
+#include "ImageProcessingUsingMaskPattern/ImageProcessingEdgeExtractionX.h"
 #include "ImageProcessingUsingMaskPattern/ImageProcessingSmoothing.h"
 #include "ImageProcessingUsingMaskPattern/ImageProcessingAverageSmoothing.h"
 #include "ImageProcessingUsingMaskPattern/ImageProcessingSharpening.h"
 #include "ImageProcessingUsingMaskPattern/ImageProcessingEmboss.h"
+#include "ImageProcessingUsingMaskPattern/ImageProcessingEdgeExtractionXYAbs.h"
 
 int main() {
     //Bitmap srcImage("../testImage/morning_glory.bmp");
@@ -27,23 +28,24 @@ int main() {
     //auto algorithm = (ImageProcessing*) new ImageProcessingSigmoidConversion(&srcImage, &test, 0.01);
     //auto algorithm = (ImageProcessing*) new ImageProcessingNegative(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSolarization(&srcImage, &test, 3);
-    //auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtraction(&srcImage, &test);
+    //auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtractionX(&srcImage, &test);
+    auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtractionXYAbs(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSmoothing(&srcImage, &test, 10);
-    auto algorithm = (ImageProcessing*) new ImageProcessingAverageSmoothing(&srcImage, &test);
+    //auto algorithm = (ImageProcessing*) new ImageProcessingAverageSmoothing(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSharpening(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingEmboss(&srcImage, &test);
-    //auto algorithm1 = (ImageProcessing*) new ImageProcessingHistogramExtension(&test, &test_, 10);
+    auto algorithm1 = (ImageProcessing*) new ImageProcessingHistogramExtension(&test, &test_, 1);
 
-    clock_t start = clock();
-    for(int i = 0; i < 16*100; i++){
-        algorithm->execute();
-    }
-    clock_t end = clock();
-    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
+//    clock_t start = clock();
+//    for(int i = 0; i < 16*100; i++){
+//        algorithm->execute();
+//    }
+//    clock_t end = clock();
+//    printf("execution time is %f", (float)(end - start)/CLOCKS_PER_SEC);
 
     algorithm->execute();
-    //algorithm1->execute();
-    //test_.writeBitmap("../testImage/dstTest_.bmp");
+    algorithm1->execute();
+    test_.writeBitmap("../testImage/dstTest_.bmp");
     test.writeBitmap("../testImage/dstTest.bmp");
 
     delete algorithm;

@@ -30,7 +30,7 @@ public:
     virtual void execute() override;
     virtual void initializeGainAndOffset() = 0;
     virtual void initializeMaskCoeff() = 0;
-    virtual void storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE value) = 0;
+    virtual void storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE pixel_value) = 0;
     virtual int getResultPixel() = 0;
     virtual ~ImageProcessingUsingMaskPattern() override;
 };
