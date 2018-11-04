@@ -37,8 +37,7 @@ void ImageProcessingEdgeExtractionXYAbs::initializeMaskCoeff(){
 }
 
 void ImageProcessingEdgeExtractionXYAbs::initializeGainAndOffset(){
-    //gain = 1;
-    //offset = 0;
+    gain = 2.0;
 }
 
 void ImageProcessingEdgeExtractionXYAbs::storeMaskedPixels(int mask_pat_no,
@@ -52,7 +51,7 @@ int ImageProcessingEdgeExtractionXYAbs::getResultPixel() {
     int sum_of_x_edge = during_sum[0];
     int sum_of_y_edge = during_sum[1];
 
-    auto temp = (int)(sqrt((double)(sum_of_x_edge*sum_of_x_edge + sum_of_y_edge*sum_of_y_edge))/2.0);
+    auto temp = (int)(sqrt((double)(sum_of_x_edge*sum_of_x_edge + sum_of_y_edge*sum_of_y_edge))/gain);
 
     for(int i = 0; i < mask_pattern_num; i++){
         during_sum[i] = 0;

@@ -13,9 +13,10 @@ class ImageProcessingEdgeExtractionXYAbs : public ImageProcessingUsingMaskPatter
 {
 private:
     int* during_sum;
+    double gain;
 public:
     ImageProcessingEdgeExtractionXYAbs(Image* src_image,
-                                  Image* dst_image);
+                                       Image* dst_image);
     void initializeGainAndOffset() override;
     void initializeMaskCoeff() override;
     void storeMaskedPixels(int mask_pat_no, UINT row, UINT col, BYTE pixel_value) override;

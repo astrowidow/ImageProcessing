@@ -12,10 +12,11 @@
 #include "ImageProcessingUsingMaskPattern/ImageProcessingSharpening.h"
 #include "ImageProcessingUsingMaskPattern/ImageProcessingEmboss.h"
 #include "ImageProcessingUsingMaskPattern/ImageProcessingEdgeExtractionXYAbs.h"
+#include "ImageProcessingUsingMaskPattern/ImageProcessingEdgeExtractionSobel.h"
 
 int main() {
-    //Bitmap srcImage("../testImage/morning_glory.bmp");
-    Bitmap srcImage("../testImage/lena_gray.bmp");
+    Bitmap srcImage("../testImage/morning_glory.bmp");
+    //Bitmap srcImage("../testImage/lena_gray.bmp");
 
     Bitmap test(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
     Bitmap test_(srcImage.getWidth(), srcImage.getHeight(), srcImage.getDepth());
@@ -30,6 +31,7 @@ int main() {
     //auto algorithm = (ImageProcessing*) new ImageProcessingSolarization(&srcImage, &test, 3);
     //auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtractionX(&srcImage, &test);
     auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtractionXYAbs(&srcImage, &test);
+    //auto algorithm = (ImageProcessing*) new ImageProcessingEdgeExtractionSobel(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSmoothing(&srcImage, &test, 10);
     //auto algorithm = (ImageProcessing*) new ImageProcessingAverageSmoothing(&srcImage, &test);
     //auto algorithm = (ImageProcessing*) new ImageProcessingSharpening(&srcImage, &test);
